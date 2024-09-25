@@ -1,0 +1,42 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+body {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+/*-----header----*/
+
+header {
+  /* Стили для хедера */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 18px 0px 18px 64px;
+  /* width: 1280px; */
+  height: 60px;
+}
+
+.img-logo{
+
+}
+
+
+.img-notes{
+  margin-left: 870px;
+
+}
+
+
+/*----main---*/
+
+main{
+  background-color: #fafafc;
+}
