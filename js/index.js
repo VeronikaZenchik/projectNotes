@@ -1,3 +1,11 @@
+const colors = {
+  GREEN: 'green',
+  BLUE: 'blue',
+  RED: 'red',
+  YELLOW: 'yellow',
+  PURPLE: 'purple',
+}
+
 const MOCK_NOTES = [
   {
   id: 1,
@@ -15,17 +23,24 @@ const MOCK_NOTES = [
 },
 ]
 
-const colors = {
-  GREEN: 'green',
-  BLUE: 'blue',
-  RED: 'red',
-  YELLOW: 'yellow',
-  PURPLE: 'purple',
-}
+
 
 const model = {
 notes: MOCK_NOTES,
-addNotes(){},
+addNotes(title, content, color){
+  // 1. создадим новую заметку
+  const note = {title, content, color}
+  // 2. добавим заметку в начало списка
+  this.notes.push(note)
+  // 3. обновим view
+  view.renderNotes(model.notes)
+},
+updateNotesView() {
+  // 1. рендерит список заметок (вызывает метод view.renderNotes)
+  view.renderNotes(model.notes)
+  // 2. рендерит количество заметок (вызывает метод view.renderNotesCount)
+  view.renderNotesCount(model.notes)
+},
 deleteNotes(){},
 addFavouritesNotes(){},
 }
@@ -34,9 +49,19 @@ addFavouritesNotes(){},
 const view = {
   init() {
     this.renderNotes(model.notes)
+    this.renderNotesCount(model.notes.length)
+
+    const form = document.querySelector(".note-form")
+    form.addEventListener('submit', (event) => {
+      event.preventDefault()
+      const title = input.value
+      const content = textarea.value
+      // получаем данные из полей формы
+      // передаем данные в контроллер
+
+      controller.addNote(title, content, color)
+    })
   },
-
-
 
   renderNotes(notes) {
     // находим контейнер для заметок и рендерим заметки в него (если заметок нет, отображаем соответствующий текст)
@@ -44,7 +69,6 @@ const view = {
 
     const notesList = document.querySelector('.notes-list')
 
-    // Проверка наличия заметок
   if (notes.length === 0) {
     notesList.innerHTML = `
     <p class="empty-note">У вас нет еще ни одной заметки <br> Заполните поля выше и создайте свою первую заметку!</p>
@@ -64,12 +88,38 @@ const view = {
       `
       notesList.innerHTML = noteHTML
     }
+  },
+
+
+  renderNotesCount(counts){
+    const notesCountElement = document.querySelector('.counts-right');
+    notesCountElement.textContent = `Всего заметок: ${counts}`;
   }
 }
 
 
 
-const controller = {}
+const controller = {
+  addNote(title, content, color) {
+    // здесь можно добавить валидацию полей
+    // your code
+    if (title.trim() !== '') {
+      model.addNote(title)
+    }
+    if (content.trim() !== '') {
+      model.addNote(content)
+    }
+    if (color.trim() !== '') {
+      model.addNote(color)
+    }
+    
+    // вызываем метод модели
+    model.addNote(title, content, color)
+
+    // вызываем метод view, реализацию которого вам нужно будет добавить
+    view.showMessage('Заметка добавлена')
+  },
+}
 
 
 function viewDefault() {
