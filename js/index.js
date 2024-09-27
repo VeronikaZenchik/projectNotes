@@ -56,6 +56,7 @@ const view = {
       event.preventDefault()
       const title = input.value
       const content = textarea.value
+      const color = colors
       // получаем данные из полей формы
       // передаем данные в контроллер
 
@@ -88,6 +89,23 @@ const view = {
       `
       notesList.innerHTML = noteHTML
     }
+
+    const deleteButtons = document.querySelectorAll('.delete-button');
+    const favouriteButtons = document.querySelectorAll('.favourite-button');
+
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', (event) => {
+        const noteId = event.target.closest('li').id;
+        this.deleteNote(noteId);
+      });
+    });
+
+    favouriteButtons.forEach(button => {
+      button.addEventListener('click', (event) => {
+        const noteId = event.target.closest('li').id;
+        this.toggleFavorite(noteId);
+      });
+    });
   },
 
 

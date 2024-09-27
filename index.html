@@ -31,29 +31,35 @@
 
       <label for="message" class="description-notes">Описание новой заметки</label>
       <textarea id="message" name="message" class="text" required placeholder="Напишите описание новой заметки..."></textarea>
+
+      <div class="box">
+      <fieldset class="fieldset">
+        <legend class="label">Выберите цвет заметки</legend>
+        <ul class="radio-list">
+          <li>
+            <input checked class="radio" type="radio" name="color" value="yellow" aria-label="yellow" />
+          </li>
+          <li>
+            <input class="radio" type="radio" name="color" value="red" aria-label="red" />
+          </li>
+          <li>
+            <input class="radio" type="radio" name="color" value="green" aria-label="green" />
+          </li>
+          <li>
+            <input class="radio" type="radio" name="color" value="blue" aria-label="blue" />
+          </li>
+          <li>
+            <input class="radio" type="radio" name="color" value="purple" aria-label="purple" />
+          </li>
+        </ul>
+      </fieldset>
+      <button type="submit"><img src="./images/icons/plus-svgrepo-com 1.png" alt="plus">Добавить заметку</button>
+    </div>
     </form> 
 
 
     <div class="filter-box">
-      <h3>Выберите цвет заметки</h3>
-      <ul class="color-items">
-        <li class="selected">
-            <div class="circle yellow"></div>
-        </li>
-        <li>
-            <div class="circle green"></div>
-        </li>
-        <li>
-            <div class="circle blue"></div>
-        </li>
-        <li>
-            <div class="circle red"></div>
-        </li>
-        <li>
-            <div class="circle purple"></div>
-        </li>
-    </ul>
-      <button type="submit"><img src="./images/icons/plus-svgrepo-com 1.png" alt="plus">Добавить заметку</button>
+
     </div>
   </section>
     <ul class="notes-list">

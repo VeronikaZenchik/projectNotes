@@ -110,7 +110,7 @@ form{
 
 /*---button of colors--*/
 
-.filter-box{
+.box{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -120,51 +120,68 @@ form{
   padding-top: 95px;
 }
 
-h3{
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 2;
-  color: #919191;
-  margin: 0;
-  padding: 0;
-}
 
-.color-items {
+  fieldset {
+    all: unset;
+  }
+  
+  legend {
+    all: unset;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 2;
+    color: #919191;
+    margin: 0;
+    padding: 0;
+  }
+
+
+.radio-list {
   display: flex;
   align-items: center; 
-  gap: 8px;
+  gap: 14px;
   list-style: none;
+  padding-left: 0;
   margin-top: 4px; 
   width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
 
-.circle {
+
+.radio {
+  appearance: none;
+  display: inline-block;
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  padding-bottom: 12px;
+  background-color: green;
 }
 
-.yellow{
-  background-color: #f3db7d;
+.radio[value="red"] {
+  background-color: #F37D7D;
 }
 
-.green{
-  background-color: #c2f37d;
+.radio[value="green"] {
+  background-color: #C2F37D;
 }
 
-.blue{
-  background-color: #7de1f3;
+.radio[value="blue"] {
+  background-color: #7DE1F3;
 }
 
-.red{
-  background-color: #f37d7d;
+.radio[value="yellow"] {
+  background-color: #F3DB7D;
 }
 
-.purple{
-  background-color: #e77df3;
+.radio[value="purple"] {
+  background-color: #E77DF3;
+}
+
+.radio:checked {
+  border-color: white;
+  box-shadow: 0 0 0 3px white, /* Внутренняя обводка для создания промежутка */
+  0 0 0 4.5px #007BFF; /* Внешняя обводка */
 }
 
 button{
