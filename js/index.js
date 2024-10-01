@@ -27,22 +27,32 @@ const MOCK_NOTES = [
 
 const model = {
 notes: MOCK_NOTES,
-addNotes(title, content, color){
-  // 1. создадим новую заметку
-  const note = {title, content, color}
-  // 2. добавим заметку в начало списка
-  this.notes.push(note)
-  // 3. обновим view
-  view.renderNotes(model.notes)
+addNote(title, content, color){
+  const note = {
+    id: this.notes.length + 1,
+    title,
+    content,
+    color,
+    isFavorite: false,
+  };
+  this.notes.unshift(note);
+  view.renderNotes(this.notes);
+  view.renderNotesCount(this.notes.length);
 },
-updateNotesView() {
-  // 1. рендерит список заметок (вызывает метод view.renderNotes)
-  view.renderNotes(model.notes)
-  // 2. рендерит количество заметок (вызывает метод view.renderNotesCount)
-  view.renderNotesCount(model.notes)
+deleteNotes(noteId){
+  this.notes = this.notes.filter((note) => note.id !== noteId)
+    view.renderNotes(this.notes)
+    view.renderNotesCount(this.notes.length);
 },
-deleteNotes(){},
-addFavouritesNotes(){},
+addFavouritesNotes(noteId){
+  this.notes = this.notes.map((note) => {
+      if (note.id === noteId) {
+        note.isFavorite = !note.isFavorite
+      }
+      return note
+  })
+  view.renderNotes(this.notes);
+},
 }
 
 
@@ -52,22 +62,23 @@ const view = {
     this.renderNotesCount(model.notes.length)
 
     const form = document.querySelector(".note-form")
+    const input = form.querySelector(".input");
+    const textarea = form.querySelector(".text"); 
+
+
     form.addEventListener('submit', (event) => {
       event.preventDefault()
       const title = input.value
       const content = textarea.value
-      const color = colors
-      // получаем данные из полей формы
-      // передаем данные в контроллер
+      const color = form.querySelector('input[name="color"]:checked').value;
 
       controller.addNote(title, content, color)
+      input.value = '';
+      textarea.value = '';
     })
   },
 
   renderNotes(notes) {
-    // находим контейнер для заметок и рендерим заметки в него (если заметок нет, отображаем соответствующий текст)
-    // также здесь можно будет повесить обработчики кликов на кнопки удаления и избранного
-
     const notesList = document.querySelector('.notes-list')
 
   if (notes.length === 0) {
@@ -81,61 +92,98 @@ const view = {
     for (let i = 0; i < notes.length; i++) {
       const note = notes[i]
       noteHTML = noteHTML + `
-      <li id="${note.id}" class="${note.isFavorite ? 'done' : ''}">
-        <b class="task-title">${note.title}</b>
-        <button class="delete-button" type="button"><img src="./images/icons/trash.png" alt="trash"></button>
-        <button class="favourite-button" type="button"><img src="./images/icons/heart-inactive.png" alt="trash"></button>
-      </li>
+        <li id="${note.id}" class="${note.isFavorite ? 'done' : ''}" style="background-color: ${note.color};">
+          <b class="task-title">${note.title}</b>
+          <p class="task-content">${note.content}</p>
+          <button class="delete-button" type="button"><img src="./images/icons/trash.png" alt="trash"></button>
+          <button class="favourite-button" type="button"><img src="./images/icons/heart-inactive.png" alt="heart"></button>
+        </li>
       `
-      notesList.innerHTML = noteHTML
     }
+    notesList.innerHTML = noteHTML
+    this.setupEventListeners(); 
+  },
 
+  setupEventListeners(){
     const deleteButtons = document.querySelectorAll('.delete-button');
     const favouriteButtons = document.querySelectorAll('.favourite-button');
 
     deleteButtons.forEach(button => {
       button.addEventListener('click', (event) => {
-        const noteId = event.target.closest('li').id;
-        this.deleteNote(noteId);
+        const noteId = +event.target.closest('li').id;
+        controller.deleteNotes(noteId)
       });
     });
-
     favouriteButtons.forEach(button => {
       button.addEventListener('click', (event) => {
-        const noteId = event.target.closest('li').id;
-        this.toggleFavorite(noteId);
+        const noteId = +event.target.closest('li').id;
+        controller.addFavouritesNotes(noteId)
       });
     });
   },
 
-
   renderNotesCount(counts){
     const notesCountElement = document.querySelector('.counts-right');
     notesCountElement.textContent = `Всего заметок: ${counts}`;
-  }
+  },
+
+  showMessage(type,  content = {}) {
+  const messageElement = document.querySelector('.messages-box');
+  messageElement.innerHTML = '';
+
+  let messageContent = '';
+
+    if (type === 'done') {
+      messageContent = `
+  <div class="done-note"><img src="./images/icons/done.png" alt="doneNote">Заметка добавлена</div>
+  `
+    }
+    if (type === 'cancel') {
+      messageContent  = `
+  <div class="cancel-note"><img src="./images/icons/cancel.png" alt="deleteNote">Заметка удалена</div>
+  `
+    }
+    if (type === 'favorite') {
+      messageContent  = `
+  <div class="favorite-note"><img src="./images/icons/heart-active.png" alt="heart ">Заметка добавлена в избранное</div>
+  `
+    }
+    if (type === 'warning') {
+      messageContent = `
+        <div class="warning-note"><img src="./images/icons/warning.png" alt="warning">Максимальная длина заголовка - 50 символов</div>
+      `;
+    }
+    
+
+    messageElement.innerHTML = messageContent;
+
+    messageElement.style.display = 'block'; 
+    setTimeout(() => {
+      messageElement.style.display = 'none'; 
+    }, 3000);
+  },
 }
+
 
 
 
 const controller = {
   addNote(title, content, color) {
-    // здесь можно добавить валидацию полей
-    // your code
-    if (title.trim() !== '') {
-      model.addNote(title)
+    if (title.length > 50) {
+      view.showMessage('warning');
+    } else {
+      model.addNote(title, content, color);
+      view.showMessage('done');
     }
-    if (content.trim() !== '') {
-      model.addNote(content)
-    }
-    if (color.trim() !== '') {
-      model.addNote(color)
-    }
-    
-    // вызываем метод модели
-    model.addNote(title, content, color)
+  },
 
-    // вызываем метод view, реализацию которого вам нужно будет добавить
-    view.showMessage('Заметка добавлена')
+  deleteNotes(noteId) {
+    model.deleteNotes(noteId)
+    view.showMessage('cancel')
+  },
+  addFavouritesNotes(noteId){
+    model.addFavouritesNotes(noteId)
+    view.showMessage('favorite')
   },
 }
 
@@ -144,5 +192,6 @@ function viewDefault() {
   view.init()
 }
 viewDefault()
+
 
 
