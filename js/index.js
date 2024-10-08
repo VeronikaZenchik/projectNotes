@@ -1,9 +1,9 @@
 const colors = {
-  GREEN: 'green',
-  BLUE: 'blue',
-  RED: 'red',
-  YELLOW: 'yellow',
-  PURPLE: 'purple',
+  GREEN: '#C2F37D',
+  BLUE: '#7DE1F3',
+  RED: '#F37D7D',
+  YELLOW: '#F3DB7D',
+  PURPLE: '#E77DF3',
 }
 
 const MOCK_NOTES = [
@@ -11,8 +11,9 @@ const MOCK_NOTES = [
   id: 1,
   title: 'Работа с формами',
   content: 'К определённым полям формы можно обратиться через form.elements по значению, указанному в атрибуте name',
-  color: colors.GREEN,
+  color: colors.PURPLE,  
   isFavorite: false,
+  isShowOnlyFavorite: false,
 },
   {
   id: 2,
@@ -20,6 +21,7 @@ const MOCK_NOTES = [
   content: 'Очень надеюсь, что не потеряю все свои нервные клетки',
   color: colors.BLUE,
   isFavorite: false,
+  isShowOnlyFavorite: false,
 },
 ]
 
@@ -53,6 +55,17 @@ addFavouritesNotes(noteId){
   })
   view.renderNotes(this.notes);
 },
+toggleShowOnlyFavorite(isShowOnlyFavorite) { 
+  this.isShowOnlyFavorite = !this.isShowOnlyFavorite;
+  this.updateNotesView();
+},
+updateNotesView() {
+  const notesToRender = this.isShowOnlyFavorite
+  ? this.notes.filter(note => note.isFavorite)
+  : this.notes;
+  view.renderNotes(notesToRender)
+  view.renderNotesCount(notesToRender.length);
+},
 }
 
 
@@ -72,10 +85,28 @@ const view = {
       const content = textarea.value
       const color = form.querySelector('input[name="color"]:checked').value;
 
-      controller.addNote(title, content, color)
+      const colorMap = { // можно ли как-то иначе, очень запуталась с этими цветами, почему не получалось как в предложенном варианте
+        green: colors.GREEN,
+        blue: colors.BLUE,
+        red: colors.RED,
+        yellow: colors.YELLOW,
+        purple: colors.PURPLE,
+      };
+
+      controller.addNote(title, content, colorMap[color])
       input.value = '';
       textarea.value = '';
     })
+
+    const onlyFavorite = document.querySelector('.filter-box');
+    onlyFavorite.innerHTML = `
+    <input class="checkbox" type="checkbox" name="favorite" value="only-favorite">
+    <p id="toggle-favorite-button">Показать только избранные</p>
+    `
+
+    document.getElementById('toggle-favorite-button').addEventListener('click', () => {
+      controller.toggleShowOnlyFavorite();
+    });
   },
 
   renderNotes(notes) {
@@ -92,15 +123,24 @@ const view = {
     for (let i = 0; i < notes.length; i++) {
       const note = notes[i]
       noteHTML = noteHTML + `
-        <li id="${note.id}" class="${note.isFavorite ? 'done' : ''}" style="background-color: ${note.color};">
-          <b class="task-title">${note.title}</b>
-          <p class="task-content">${note.content}</p>
-          <button class="delete-button" type="button"><img src="./images/icons/trash.png" alt="trash"></button>
-          <button class="favourite-button" type="button"><img src="./images/icons/heart-inactive.png" alt="heart"></button>
-        </li>
+        <li id="${note.id}" class="${note.isFavorite ? 'done' : ''}">
+        <div class="title-content">
+          <b class="note-title" style="background-color: ${note.color};">${note.title}
+          <div class="buttons-note">
+          <button class="favourite-button" type="button" style="background-color: ${note.color};">
+            <img src="${note.isFavorite ? './images/icons/heart-active.png' : './images/icons/heart-inactive.png'}" alt="heart">
+          </button>
+          <button class="delete-button" type="button"  style="background-color: ${note.color};">
+          <img src="./images/icons/trash.png" alt="trash">
+          </button>
+          </div>
+          </b>
+          <p class="note-content">${note.content}</p>
+          </div>
+          </li>
       `
     }
-    notesList.innerHTML = noteHTML
+    notesList.innerHTML = `<div class="note-container"><ul class="view-notes">${noteHTML}</ul></div>`
     this.setupEventListeners(); 
   },
 
@@ -162,6 +202,11 @@ const view = {
       messageElement.style.display = 'none'; 
     }, 3000);
   },
+
+  
+
+
+
 }
 
 
@@ -181,9 +226,14 @@ const controller = {
     model.deleteNotes(noteId)
     view.showMessage('cancel')
   },
+  
   addFavouritesNotes(noteId){
     model.addFavouritesNotes(noteId)
     view.showMessage('favorite')
+  },
+  toggleShowOnlyFavorite() {
+    model.isShowOnlyFavorite = !model.isShowOnlyFavorite;
+    model.updateNotesView();
   },
 }
 
