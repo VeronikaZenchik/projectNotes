@@ -13,7 +13,7 @@ const MOCK_NOTES = [
   content: 'К определённым полям формы можно обратиться через form.elements по значению, указанному в атрибуте name',
   color: colors.PURPLE,  
   isFavorite: false,
-  isShowOnlyFavorite: false,
+
 },
   {
   id: 2,
@@ -21,7 +21,7 @@ const MOCK_NOTES = [
   content: 'Очень надеюсь, что не потеряю все свои нервные клетки',
   color: colors.BLUE,
   isFavorite: false,
-  isShowOnlyFavorite: false,
+
 },
 ]
 
@@ -29,6 +29,8 @@ const MOCK_NOTES = [
 
 const model = {
 notes: MOCK_NOTES,
+  isShowOnlyFavorite: false,
+
 addNote(title, content, color){
   const note = {
     id: this.notes.length + 1,
@@ -59,13 +61,14 @@ toggleShowOnlyFavorite(isShowOnlyFavorite) {
   this.isShowOnlyFavorite = !this.isShowOnlyFavorite;
   this.updateNotesView();
 },
-updateNotesView() {
-  const notesToRender = this.isShowOnlyFavorite
-  ? this.notes.filter(note => note.isFavorite)
-  : this.notes;
-  view.renderNotes(notesToRender)
-  view.renderNotesCount(notesToRender.length);
-},
+  updateNotesView() {
+    const notesToRender = this.isShowOnlyFavorite
+      ? this.notes.filter(note => note.isFavorite)
+      : this.notes;
+
+    view.renderNotes(notesToRender);
+    view.renderNotesCount(notesToRender.length);
+  },
 }
 
 
@@ -101,10 +104,10 @@ const view = {
     const onlyFavorite = document.querySelector('.filter-box');
     onlyFavorite.innerHTML = `
     <input class="checkbox" type="checkbox" name="favorite" value="only-favorite">
-    <p id="toggle-favorite-button">Показать только избранные</p>
+    <p id="toggle-favorite-button">Показать только избранные заметки</p>
     `
 
-    document.getElementById('toggle-favorite-button').addEventListener('click', () => {
+    document.querySelector('.checkbox').addEventListener('click', () => {
       controller.toggleShowOnlyFavorite();
     });
   },
@@ -232,8 +235,7 @@ const controller = {
     view.showMessage('favorite')
   },
   toggleShowOnlyFavorite() {
-    model.isShowOnlyFavorite = !model.isShowOnlyFavorite;
-    model.updateNotesView();
+    model.toggleShowOnlyFavorite();
   },
 }
 

@@ -388,10 +388,16 @@ margin-left: 10px;
 
 .filter-box{
   display: flex;
-  flex-direction: row;
+  align-items: center;
   justify-content: flex-end;
+  flex-direction: row;
+  gap: 8px;
+  padding-right: 385px;
 }
 
 .toggle-favorite-button{
-  
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 2;
+  color: #000;
 }
