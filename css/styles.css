@@ -20,7 +20,8 @@ li{
 .header {
   background-color: #fff;
   padding: 18px 64px;
-  height: 60px;
+  height: 100%;
+  width: 100%;
   box-shadow: 0 1px 3px 0 rgba(11, 12, 13, 0.16), 0 0 1px 0 rgba(11, 12, 13, 0.24);
   display: flex; 
   justify-content: space-between; 
@@ -99,7 +100,7 @@ form {
   border-radius: 10px;
   padding: 6px 12px;
   width: 344px;
-  height: 36px;
+  height: auto;
 }
 
 .text {
@@ -118,7 +119,6 @@ form {
   justify-content: flex-end;
   gap: 6px;
   margin-top: 75px;
-
   margin-bottom: 12px;
 }
 
@@ -152,6 +152,7 @@ legend {
   height: 24px;
   border-radius: 50%;
   background-color: green;
+  cursor: pointer;
 }
 
 .radio[value="red"] {
@@ -193,6 +194,7 @@ button {
   width: 232px;
   height: 36px;
   margin-bottom: 24px;
+  cursor: pointer;
 }
 
 button img {
@@ -360,6 +362,7 @@ margin-left: 10px;
   margin: 0;
   padding: 0;
 }
+
 .favourite-button {
   background-repeat: no-repeat;
   border: none;
@@ -377,7 +380,7 @@ margin-left: 10px;
 
 .note-content {
   padding: 12px;
-  width: 368px;
+  width: 100%;
   height: auto;
   background: #fff;
   font-weight: 400;
@@ -400,4 +403,116 @@ margin-left: 10px;
   font-size: 12px;
   line-height: 2;
   color: #000;
+}
+
+.checkbox{
+  cursor: pointer;
+}
+
+
+/*-----media--*/
+
+@media screen and (max-width: 375px) {
+
+  .header {
+    padding: 12px;
+    display: flex; 
+    flex-direction: column;
+  }
+
+  
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.counts-right {
+    margin-top: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.header-text {
+    margin-left: 0;
+    margin-top: 8px;
+}
+
+
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  width: 100%;
+  height: auto;
+  gap: 12px;
+}
+
+form {
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group {
+  margin: 12px 0;
+  
+}
+
+.input, .text {
+  width: 320px;
+  min-height: auto;
+}
+
+
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.radio-list {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+button{
+  width: 100%;
+}
+
+
+.note-container, .view-notes {
+  flex-direction: column;
+  gap: 17px;
+}
+
+.title-content {
+  width: 100%;
+}
+
+.note-title {
+  padding: 8px;
+}
+
+.note-content {
+  padding: 8px;
+}
+
+.filter-box {
+  padding-right: 0;
+  justify-content: center;
+}
+
+
+.messages-box {
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.done-note, .cancel-note, .favorite-note, .warning-note {
+  width: 100%;
+  margin-left: 0;
+}
+
 }
