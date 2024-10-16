@@ -1,8 +1,8 @@
 const colors = {
+  YELLOW: '#F3DB7D',
   GREEN: '#C2F37D',
   BLUE: '#7DE1F3',
   RED: '#F37D7D',
-  YELLOW: '#F3DB7D',
   PURPLE: '#E77DF3',
 }
 

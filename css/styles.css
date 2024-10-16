@@ -70,13 +70,11 @@ form {
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 8px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  margin-top: 24px;
   margin-left: 24px;
   margin-bottom: 12px;
 }
@@ -103,6 +101,10 @@ form {
   height: auto;
 }
 
+.description-notes{
+  margin-top: 20px;
+}
+
 .text {
   border: 1px solid #e8e8e8;
   border-radius: 10px;
@@ -120,6 +122,8 @@ form {
   gap: 6px;
   margin-top: 75px;
   margin-bottom: 12px;
+  margin-left: 24px;
+  margin-right: 24px;
 }
 
 fieldset {
@@ -139,7 +143,7 @@ legend {
 .radio-list {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 15px;
   list-style: none;
   padding-left: 0;
   margin-top: 4px;
@@ -191,10 +195,12 @@ button {
   background-color: #457cdc;
   border-radius: 10px;
   padding: 6px 24px;
-  width: 232px;
-  height: 36px;
+  width: 100%;
+  height: auto;
   margin-bottom: 24px;
   cursor: pointer;
+  border: none;
+  margin-bottom: 0;
 }
 
 button img {
@@ -220,7 +226,7 @@ button img {
   margin-left: auto;
 }
 
-.done-note{
+.done-note, .cancel-note, .favorite-note, .warning-note{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -231,71 +237,37 @@ button img {
   font-size: 14px;
   line-height: 1.71429;
   color: #fff;
+  border-radius: 10px;
+  margin-left: 10px; 
+}
+
+.done-note{
   width: 230px;
   height: 48px;
-  border-radius: 10px;
   box-shadow: 0 8px 12px 0 rgba(11, 12, 13, 0.08), 0 16px 24px 0 rgba(11, 12, 13, 0.04), 0 1px 2px 0 rgba(11, 12, 13, 0.08);
-  background-color: #47b27d;
-  margin-left: 10px; 
+  background-color: #47b27d; 
 }
 
 .cancel-note{
-display: flex;
-align-items: center;
-justify-content: center;
-flex-direction: row;
-gap: 10px;
-padding: 12px 24px;
-font-weight: 500;
-font-size: 14px;
-line-height: 1.71429;
-color: #fff;
 background-color: #f23d5b;
 width: 230px;
 height: 48px;
-border-radius: 10px;
 box-shadow: 0 8px 12px 0 rgba(11, 12, 13, 0.08), 0 16px 24px 0 rgba(11, 12, 13, 0.04), 0 1px 2px 0 rgba(11, 12, 13, 0.08);
-margin-left: 10px; 
 }
 
 .favorite-note{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  gap: 10px;
-  padding: 12px 24px;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1.71429;
-  color: #fff;
   width: 350px;
   height: 48px;
-  border-radius: 10px;
   box-shadow: 0 8px 12px 0 rgba(11, 12, 13, 0.08), 0 16px 24px 0 rgba(11, 12, 13, 0.04), 0 1px 2px 0 rgba(11, 12, 13, 0.08);
   background-color: #47b27d;
-  margin-left: 10px; 
 }
 
 .warning-note{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  gap: 10px;
-  padding: 12px 24px;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1.71429;
-  color: #fff;
   background-color: #f23d5b;
   width: 427px;
   height: 48px;
-  border-radius: 10px;
   box-shadow: 0 8px 12px 0 rgba(11, 12, 13, 0.08), 0 16px 24px 0 rgba(11, 12, 13, 0.04), 0 1px 2px 0 rgba(11, 12, 13, 0.08);
-  margin-left: 10px; 
 }
-
 
 .note-container{
   display: flex;
@@ -361,16 +333,6 @@ margin-left: 10px;
   background-size: contain;
   margin: 0;
   padding: 0;
-}
-
-.favourite-button {
-  background-repeat: no-repeat;
-  border: none;
-  cursor: pointer;
-  background-color: transparent;
-}
-
-.delete-button {
   background-repeat: no-repeat;
   border: none;
   cursor: pointer;
@@ -379,7 +341,7 @@ margin-left: 10px;
 
 
 .note-content {
-  padding: 12px;
+  padding: 6px;
   width: 100%;
   height: auto;
   background: #fff;
@@ -419,7 +381,6 @@ margin-left: 10px;
     display: flex; 
     flex-direction: column;
   }
-
   
   .header-container {
     flex-direction: column;
@@ -436,7 +397,6 @@ margin-left: 10px;
     margin-left: 0;
     margin-top: 8px;
 }
-
 
 section {
   display: flex;
@@ -463,7 +423,6 @@ form {
   min-height: auto;
 }
 
-
 .box {
   display: flex;
   flex-direction: column;
@@ -479,7 +438,6 @@ form {
 button{
   width: 100%;
 }
-
 
 .note-container, .view-notes {
   flex-direction: column;
@@ -503,7 +461,6 @@ button{
   justify-content: center;
 }
 
-
 .messages-box {
   flex-direction: column;
   align-items: center;
@@ -514,5 +471,4 @@ button{
   width: 100%;
   margin-left: 0;
 }
-
 }
